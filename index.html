@@ -246,10 +246,6 @@ html:not(.js) .rv{opacity:1;transform:none;filter:none}
 .small{font-size:17px;font-style:italic;color:var(--soft);margin-top:12px}
 
 /* last time */
-.last{margin-top:36px;text-align:center}
-.last .ph{max-width:250px;margin:14px auto 0;transform:rotate(-2deg)}
-.last p.s{font-style:italic;color:var(--soft);font-size:19px;margin-top:14px;line-height:1.4}
-.last a{color:var(--gold-d)}
 
 .sign{margin-top:38px;text-align:center}
 .sign .with{font-style:italic;font-size:21px;color:var(--soft)}
@@ -270,7 +266,11 @@ html:not(.js) .sign .names{clip-path:none}
 html:not(.js) #snd{display:none!important}
 
 #film{position:relative;z-index:2;max-width:760px;margin:30px auto 0;padding:10px 16px;text-align:center}
-#film .mono{margin-bottom:14px}
+.fhead{margin:26px auto 16px;max-width:560px}
+.fhead h2{font-weight:600;font-size:clamp(28px,8vw,38px);line-height:1.1;margin-top:10px;color:var(--ink)}
+.fhead .fs{font-style:italic;color:var(--soft);font-size:20px;line-height:1.45;margin-top:8px}
+.vf.portrait{max-width:360px;margin:0 auto}
+#film .orn{margin:44px auto 10px;width:50%}
 .vf{border:1px solid var(--gold);padding:8px;background:#f7f4ea;box-shadow:0 16px 40px rgba(120,95,30,.2)}
 video{display:block;width:100%;height:auto;background:#0d0d12}
 .replay{display:block;margin:34px auto 0;background:none;border:1px solid var(--gold);color:var(--gold-d);padding:13px 24px;border-radius:40px;cursor:pointer}
@@ -474,12 +474,6 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
         </div>
       </div>
 
-      <div class="last rv">
-        <p class="mono">Last time, on the farm</p>
-        <div class="ph"><img src="img/reel-poster.jpg" width="540" height="960" loading="lazy" decoding="async" alt="The Feni Trail, issue one: the guests on the farm, 17–18 October 2026"></div>
-        <p class="s">Issue No. 01. They came as guests and left as friends.<br><a href="https://movingartsprogram.com/the-feni-trail/" target="_blank" rel="noopener">See how it went</a></p>
-      </div>
-
       <div class="sign rv" id="sign">
         <p class="with">Curated with</p>
         <p class="wll">WHOLE LOTTA LOVE</p>
@@ -490,12 +484,26 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
   </div>
 </main>
 
-<!-- FILM -->
+<!-- FILMS -->
 <section id="film">
-  <p class="mono">And now, the story of Ouro</p>
-  <div class="vf"><video id="vid" playsinline preload="none" controls src="ouro.mp4" poster="img/still.jpg"></video></div>
+  <div class="fhead">
+    <p class="mono">Issue No. 01 · October</p>
+    <h2 class="serif">This is how it went.</h2>
+    <p class="fs">Last time, on the farm. A selected few, one farm, and a night we are still talking about.</p>
+  </div>
+  <div class="vf portrait"><video class="vid" id="reel" playsinline preload="none" controls poster="img/reel-poster.jpg" src="feni-trail-reel.mp4"></video></div>
+
+  <div class="orn"><i></i><b></b><i></i></div>
+
+  <div class="fhead">
+    <p class="mono">In association with Ouro</p>
+    <h2 class="serif">The story of Ouro</h2>
+    <p class="fs">Premium Spiced Cashew Feni, made on this very farm by the same hands for generations. You will taste it at the still.</p>
+  </div>
+  <div class="vf"><video class="vid" id="vid" playsinline preload="none" controls src="ouro.mp4" poster="img/ouro-poster.jpg"></video></div>
+
   <button class="replay mono" id="replay">Open the envelope again</button>
-  <p class="mono foot">Moving Arts Program · Goa</p>
+  <p class="mono foot">Curated with Whole Lotta Love · Moving Arts Program · Goa</p>
 </section>
 
 <script>
@@ -519,7 +527,7 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
     return {name:nameIn.value.trim(),as:as?as.value:'',likes:likes,rough:document.getElementById('rough').checked};
   }
   function message(kind){
-    var p=picked(),t='Dear Ashok and Prashant, ';
+    var p=picked(),t='Dear Moving Arts Program, ';
     t+=kind==='book'
       ?'I have booked and paid on Razorpay for The Feni Trail, second edition, at Dudhsagar Plantation, check in Sunday 29 November at 12 noon, check out Monday 30 November at 12 noon.'
       :'yes, I am confirming for The Feni Trail, second edition, at Dudhsagar Plantation, check in Sunday 29 November at 12 noon, check out Monday 30 November at 12 noon. Please hold a room for me.';
@@ -673,9 +681,13 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
     birdBus=ctx.createGain();birdBus.gain.value=0.04;birdBus.connect(amb);
     (function nextBird(){bird();setTimeout(nextBird,2500+Math.random()*6500);})();
     (function nextKoel(){koel();setTimeout(nextKoel,14000+Math.random()*14000);})();
-    vid.addEventListener('play',function(){filmPlaying=true;ambSet();});
-    vid.addEventListener('pause',function(){filmPlaying=false;ambSet();});
-    vid.addEventListener('ended',function(){filmPlaying=false;ambSet();});
+    var vids=[].slice.call(document.querySelectorAll('video.vid'));
+    function anyPlaying(){return vids.some(function(v){return !v.paused&&!v.ended;});}
+    vids.forEach(function(v){
+      v.addEventListener('play',function(){vids.forEach(function(o){if(o!==v)o.pause();});filmPlaying=true;ambSet();});
+      v.addEventListener('pause',function(){filmPlaying=anyPlaying();ambSet();});
+      v.addEventListener('ended',function(){filmPlaying=anyPlaying();ambSet();});
+    });
     document.addEventListener('visibilitychange',function(){if(!actx)return;if(document.hidden){actx.suspend();}else{actx.resume();}});
     ambSet();
   }
