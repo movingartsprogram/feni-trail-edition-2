@@ -239,7 +239,10 @@ html:not(.js) .rv{opacity:1;transform:none;filter:none}
 @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 .nudge{min-height:24px;margin-top:10px;font-style:italic;color:#9a4b1f;font-size:18px}
 .thanks{display:none;margin-top:16px;font-size:20.5px;line-height:1.5;font-style:italic;color:var(--gold-d)}
-.form.done .thanks{display:block;animation:fadeup 1.2s ease forwards}
+.form.done-c #thanksC{display:block;animation:fadeup 1.2s ease forwards}
+.paid{display:none;margin-top:6px}
+.form.done-b .paid{display:block;animation:fadeup 1.2s ease forwards}
+.paid .yes{margin-top:14px;animation:none}
 .small{font-size:17px;font-style:italic;color:var(--soft);margin-top:12px}
 
 /* last time */
@@ -460,11 +463,15 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
 
         <div class="btns">
           <a class="yes" id="yes" href="https://wa.me/919849690077" target="_blank" rel="noopener">Yes, I am confirming</a>
-          <a class="book" id="book" href="https://wa.me/919849690077" target="_blank" rel="noopener">I want to book now</a>
+          <a class="book" id="book" href="https://razorpay.me/@movingartsprogram" target="_blank" rel="noopener">I want to book now</a>
         </div>
         <p class="nudge" id="nudge" aria-live="polite"></p>
-        <p class="small">Confirming holds your place. Booking now and we send you the payment details.</p>
-        <p class="thanks">Thank you. Your message is ready in WhatsApp. Press send, and we will get back to you.</p>
+        <p class="small">Confirming holds your place on WhatsApp. Booking now takes you to Razorpay to pay: <span id="payamt">₹6,000 stag, ₹10,000 couple</span>.</p>
+        <p class="thanks" id="thanksC">Thank you. Your message is ready in WhatsApp. Press send, and we will get back to you.</p>
+        <div class="paid" id="paid">
+          <p class="thanks" style="display:block">Thank you. Pay on Razorpay in the new tab, then come back here and tell us, so we keep your room.</p>
+          <a class="yes" id="paidmsg" href="https://wa.me/919849690077" target="_blank" rel="noopener">I have paid, tell them</a>
+        </div>
       </div>
 
       <div class="last rv">
@@ -514,10 +521,10 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
   function message(kind){
     var p=picked(),t='Dear Ashok and Prashant, ';
     t+=kind==='book'
-      ?'I want to book now for The Feni Trail, second edition, at Dudhsagar Plantation, check in Sunday 29 November at 12 noon, check out Monday 30 November at 12 noon. Please send me the payment details.'
+      ?'I have booked and paid on Razorpay for The Feni Trail, second edition, at Dudhsagar Plantation, check in Sunday 29 November at 12 noon, check out Monday 30 November at 12 noon.'
       :'yes, I am confirming for The Feni Trail, second edition, at Dudhsagar Plantation, check in Sunday 29 November at 12 noon, check out Monday 30 November at 12 noon. Please hold a room for me.';
     t+='\n\nName: '+(p.name||'');
-    if(p.as)t+='\nComing as: '+p.as+(p.as==='Couple'?' (₹10,000)':' (₹6,000)');
+    if(p.as)t+='\n'+(kind==='book'?'Paid for: ':'Coming as: ')+p.as+(p.as==='Couple'?' (₹10,000)':' (₹6,000)');
     if(p.likes.length)t+='\nWhat calls me: '+p.likes.join(', ');
     if(p.rough)t+='\nI read the rough part. I\'m in.';
     return t;
@@ -534,8 +541,14 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
         return;
       }
       nudge.textContent='';
-      a.href='https://wa.me/'+NUM+'?text='+encodeURIComponent(message(kind));
-      document.getElementById('form').classList.add('done');
+      var f=document.getElementById('form');
+      if(kind==='book'){
+        document.getElementById('paidmsg').href='https://wa.me/'+NUM+'?text='+encodeURIComponent(message('book'));
+        f.classList.remove('done-c');f.classList.add('done-b');
+      }else{
+        a.href='https://wa.me/'+NUM+'?text='+encodeURIComponent(message(kind));
+        f.classList.remove('done-b');f.classList.add('done-c');
+      }
       var rc=a.getBoundingClientRect();sparkle(rc.left+rc.width/2,rc.top+rc.height/2);
       tone(880,0,1.6,0.08);tone(1318.5,0.18,1.8,0.06);tone(1760,0.36,2,0.03);
     });
@@ -543,6 +556,7 @@ video{display:block;width:100%;height:auto;background:#0d0d12}
   wire('yes','confirm');wire('book','book');
   document.querySelectorAll('.chip input').forEach(function(x){x.addEventListener('change',function(){nudge.textContent='';if(x.checked)tone(1318.5,0,.5,0.03);});});
   nameIn.addEventListener('input',function(){nudge.textContent='';});
+  document.querySelectorAll('input[name=as]').forEach(function(r){r.addEventListener('change',function(){document.getElementById('payamt').textContent=r.value==='Couple'?'₹10,000 for the two of you':'₹6,000 for you';});});
 
   var gate=document.getElementById('gate'),vid=document.getElementById('vid'),opened=false;
   function reveal(){

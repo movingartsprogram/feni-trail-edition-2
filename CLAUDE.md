@@ -20,10 +20,11 @@ Served by GitHub Pages from `main`. This repo is public, so never put private gu
   Elvis Lobo live, feni cocktails, every trail and the pool.
 - The rough part is stated plainly: a working farm, not five-star.
 - Form: name, stag/couple, interest ticks, "I read the rough part". Two buttons,
-  "Yes, I am confirming" and "I want to book now", both open WhatsApp to 919849690077 with the answers.
+  "Yes, I am confirming" opens WhatsApp (919849690077) with the answers; "I want to book now" opens
+  https://razorpay.me/@movingartsprogram, then an "I have paid, tell them" WhatsApp button appears.
 - Signed Ashok & Prashant; "Curated with WHOLE LOTTA LOVE by Moving Arts Program in association
   with Ouro – Premium Spiced Cashew Feni".
 
 ## Still open
 
-- Should "I want to book now" open a Razorpay link instead of WhatsApp?
+- (add anything not yet decided here)
