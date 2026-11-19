@@ -2,7 +2,7 @@
 
 The page sent to people who showed interest in the second Feni Trail:
 check in Sunday 29 November 2026, 12 noon; check out Monday 30 November, 12 noon.
-Dudhsagar Plantation. 7 rooms, 14 people. Elvis Lobo live.
+Dudhsagar Plantation. An exclusive personal experience trip, only for 12 people. Elvis Lobo live.
 Served by GitHub Pages from `main`. This repo is public, so never put private guest details in it.
 
 ## Ground rules
@@ -17,10 +17,11 @@ Served by GitHub Pages from `main`. This repo is public, so never put private gu
 
 - Envelope opening like the first invitation (`Invitation-feni-trail-`), "Thank you for your interest".
 - `?to=Name` puts the guest's name on the envelope, letter and form (max 40 characters).
-- Price: ₹6,000 stag, ₹10,000 couple. "That's all you pay": room, meals and barbecue,
+- Price (19 Nov, agreed with Ashok): ₹5,000 per person on sharing, ₹8,000 single room. Say "12 people",
+  never a number of rooms. "That's all you pay": room, meals and barbecue,
   Elvis Lobo live, feni cocktails, every trail and the pool.
 - The rough part is stated plainly: a working farm, not five-star.
-- Form: name, stag/couple, interest ticks, "I read the rough part". Two buttons,
+- Form: name, "Just me, sharing" ₹5,000 / "Two of us, sharing" ₹10,000 / "Just me, single room" ₹8,000, interest ticks, "I read the rough part". Two buttons,
   "Yes, I am confirming" opens WhatsApp (919849690077) with the answers; "I want to book now" opens
   https://razorpay.me/@movingartsprogram, then an "I have paid, tell them" WhatsApp button appears.
 - WhatsApp messages start "Dear Moving Arts Program,".
